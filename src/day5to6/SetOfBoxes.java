@@ -34,6 +34,7 @@ public class SetOfBoxes {
 			while (itr.hasNext()) { 
 				
 				if(itr.next().equals(box)){
+					
 					b=true;
 					break;
 				}
@@ -43,11 +44,15 @@ public class SetOfBoxes {
 			}else {
 				hash.add(box);
 			}
+		
 		}
+		
 		System.out.println("Unique Boxes in the Set are ");
-		for(int i=0;i<n;i++) {
-			System.out.println(hash);
+		Iterator<Box> itr = hash.iterator(); 
+		while (itr.hasNext()) { 
+			System.out.println(itr.next());
 		}
+		
 		sc.close();
 
 	}
@@ -94,7 +99,7 @@ class Box{
 
 
 	public String toString() {
-		return ("Length = "+length+" Width = "+width+" Height = "+height+" Volume = "+(volume));
+		return ("Length = "+length+" Width = "+width+" Height = "+height+" Volume = "+volume);
 	}
 	public boolean equals(Box b) {
 		if(this.volume==b.volume) {
