@@ -3,13 +3,16 @@ package day8jdbc;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
  * @author 841423
  *
  */
-public class InsertEmployee {
+public class DisplayEmployee {
 
 	public static void main(String[] args) {
 		Scanner sc=new Scanner(System.in);
@@ -20,23 +23,28 @@ public class InsertEmployee {
 		sc.nextLine();
 		System.out.println("Enter the Name: ");
 		String name=sc.nextLine();
-		System.out.println("Enter the Date of birth (yyyy-mm-dd): ");
+		System.out.println("Enter the Date of birth (dd/MM/yyyy): ");
 		String dateOfBirth=sc.nextLine();
 		System.out.println("Enter the Salary: ");
 		int salary=sc.nextInt();
-		Employee e=new Employee(employeeId, name, dateOfBirth, salary);
-		EmployeeService es=new EmployeeService();
+		Employee2 e=new Employee2(employeeId, name, dateOfBirth, salary);
+		EmployeeService2 es=new EmployeeService2();
 		es.addEmployee(e);
+		ArrayList<Employee> emp=es.getAllEmployee();
+		for(Employee x:emp){
+			System.out.println(x.getEmployeeId()+" "+x.getDateOfBirth()+" "+x.getSalary());
+		}
 		sc.close();
+
 	}
 
 }
-class Employee{
+class Employee2{
 	private int employeeId;
 	private String name;
 	private String dateOfBirth;
 	private int salary;
-	public Employee(int employeeId, String name, String dateOfBirth, int salary) {
+	public Employee2(int employeeId, String name, String dateOfBirth, int salary) {
 		super();
 		this.employeeId = employeeId;
 		this.name = name;
@@ -72,7 +80,7 @@ class Employee{
 }
 
 
-class  EmployeeDAO {
+class  EmployeeDAO2 {
 	public static Connection getConnection(){
 		Connection con=null;
 		try{  
@@ -85,7 +93,7 @@ class  EmployeeDAO {
 		return con;	
 	}
 
-	public void addEmployee(Employee e) {
+	public void addEmployee(Employee2 e) {
 		
 		String sql="insert into employee values(?,?,?,?)"; 
 		try {
@@ -100,32 +108,56 @@ class  EmployeeDAO {
 		} catch (Exception e2) {
 			System.out.println(e2);
 		}
-		 
-	
-
+		
+	}
+	public ArrayList<Employee> getAllEmployees(){
+		ArrayList<Employee> a= new ArrayList<Employee>();
+		try {
+			String sql="select * from Employee";
+			PreparedStatement stmt=EmployeeDAO.getConnection().prepareStatement(sql); 
+		
+			ResultSet rs=stmt.executeQuery(); 
+			
+			while(rs.next()){
+				int id=rs.getInt(1);
+				String name=rs.getString(2);
+				
+				String pattern = "dd/mm/yyyy";
+				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+				String date = simpleDateFormat.format(rs.getDate(3));
+				
+				int sal=rs.getInt(4);
+				Employee e = new Employee(id, name, date, sal);
+				a.add(e);
+				
+			}		
+			
+			
+			EmployeeDAO.getConnection().close();
+		} catch (Exception e2) {
+			System.out.println(e2);
+		}
+		return a;
 	}
 	
 }
 
-class EmployeeService{
-	public void addEmployee(Employee e){
-		EmployeeDAO edao=new EmployeeDAO();
+class EmployeeService2{
+	public void addEmployee(Employee2 e){
+		EmployeeDAO2 edao=new EmployeeDAO2();
 		edao.addEmployee(e);
+		ArrayList<Employee> emp=edao.getAllEmployees();
+		for(Employee x:emp){
+			System.out.println(x.getEmployeeId()+" "+x.getDateOfBirth()+" "+x.getSalary());
+		}
+	}
+	public ArrayList<Employee> getAllEmployee(){
+		EmployeeDAO2 edao=new EmployeeDAO2();
+		
+		return edao.getAllEmployees();
+		
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
