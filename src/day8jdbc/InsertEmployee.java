@@ -20,8 +20,10 @@ public class InsertEmployee {
 		sc.nextLine();
 		System.out.println("Enter the Name: ");
 		String name=sc.nextLine();
-		System.out.println("Enter the Date of birth (yyyy-mm-dd): ");
+		System.out.println("Enter the Date of birth (dd/MM/yyyy): ");
 		String dateOfBirth=sc.nextLine();
+		String x[]=dateOfBirth.split("\\/");
+		dateOfBirth=x[2]+x[1]+x[0];
 		System.out.println("Enter the Salary: ");
 		int salary=sc.nextInt();
 		Employee e=new Employee(employeeId, name, dateOfBirth, salary);
@@ -76,7 +78,7 @@ class  EmployeeDAO {
 	public static Connection getConnection(){
 		Connection con=null;
 		try{  
-			Class.forName("com.mysql.jdbc.Driver");  
+			Class.forName("com.mysql.cj.jdbc.Driver");  
 			con=DriverManager.getConnection("jdbc:mysql://localhost:3306/payroll","root","root");  
 			
 		}catch(Exception e){
@@ -95,7 +97,7 @@ class  EmployeeDAO {
 			stmt.setString(3, e.getDateOfBirth());
 			stmt.setInt(4, e.getSalary());
 			int i=stmt.executeUpdate();  
-			System.out.println(i+" records inserted");  
+			System.out.println(i+" Employee added successfull !!");  
 			EmployeeDAO.getConnection().close();
 		} catch (Exception e2) {
 			System.out.println(e2);

@@ -25,6 +25,8 @@ public class DisplayEmployee {
 		String name=sc.nextLine();
 		System.out.println("Enter the Date of birth (dd/MM/yyyy): ");
 		String dateOfBirth=sc.nextLine();
+		String z[]=dateOfBirth.split("\\/");
+		dateOfBirth=z[2]+z[1]+z[0];
 		System.out.println("Enter the Salary: ");
 		int salary=sc.nextInt();
 		Employee2 e=new Employee2(employeeId, name, dateOfBirth, salary);
@@ -103,7 +105,7 @@ class  EmployeeDAO2 {
 			stmt.setString(3, e.getDateOfBirth());
 			stmt.setInt(4, e.getSalary());
 			int i=stmt.executeUpdate();  
-			System.out.println(i+" records inserted");  
+			System.out.println(i+" Employee added successfull !!");  
 			EmployeeDAO.getConnection().close();
 		} catch (Exception e2) {
 			System.out.println(e2);
@@ -122,7 +124,7 @@ class  EmployeeDAO2 {
 				int id=rs.getInt(1);
 				String name=rs.getString(2);
 				
-				String pattern = "dd/mm/yyyy";
+				String pattern = "dd/MM/yyyy";
 				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 				String date = simpleDateFormat.format(rs.getDate(3));
 				
@@ -146,10 +148,7 @@ class EmployeeService2{
 	public void addEmployee(Employee2 e){
 		EmployeeDAO2 edao=new EmployeeDAO2();
 		edao.addEmployee(e);
-		ArrayList<Employee> emp=edao.getAllEmployees();
-		for(Employee x:emp){
-			System.out.println(x.getEmployeeId()+" "+x.getDateOfBirth()+" "+x.getSalary());
-		}
+		
 	}
 	public ArrayList<Employee> getAllEmployee(){
 		EmployeeDAO2 edao=new EmployeeDAO2();
