@@ -4,6 +4,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.Scanner;
 
+/**
+ * @author 841423
+ *
+ */
 public class SimpleFileWrite {
 
 	public static void main(String[] args) {
