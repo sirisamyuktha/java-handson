@@ -20,8 +20,9 @@ public class SimpleFileWrite {
 		int n=sc.nextInt();
 	
 		try {
-			
-			FileWriter fw = new FileWriter(new File("C:\\Users\\841423","player.csv"));
+			File f= new File("player.csv");
+			f.createNewFile();
+			FileWriter fw = new FileWriter(f);
 		
 			fw.write(name+" , "+teamName+" , "+n);
 			fw.flush();

@@ -17,7 +17,7 @@ public class SimpleFileRead1 {
 		System.out.println("Enter the file name :");
 		String fileName=sc.nextLine();
 		try {
-			File file=new File("C:\\Users\\841423",fileName);
+			File file=new File(fileName);
 			FileReader fr= new FileReader(file);
 			BufferedReader br = new BufferedReader(fr);
 			String str=br.readLine();
