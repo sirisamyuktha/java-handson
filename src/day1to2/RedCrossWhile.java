@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class RedCrossWhile {
 
 	/**
-	 * @author sumit kumar
+	 * @author diwakar kumar
 	 * @code 02-11
 	 */
 	public static void main(String[] args) {
